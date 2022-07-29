@@ -34,7 +34,9 @@ app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
 
 
-const port =  3000;
+const port = process.env.PORT || 3000;
+console.log(process.env.PORT)
+//const port =  3000;
 app.listen(port, () => {
 
 })
