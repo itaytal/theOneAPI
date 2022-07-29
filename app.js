@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-const tours = JSON.parse(fs.readFileSync(`${__dirname}\\public\\data\\tours.json`));
+const tours = ""; //JSON.parse(fs.readFileSync(`${__dirname}\\public\\data\\tours.json`));
 
 
 app.use(compression())
