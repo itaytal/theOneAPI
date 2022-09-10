@@ -14,3 +14,12 @@ exports.getAllUsers = async (req, res, next) => {
     })
 
 }
+
+exports.getUser = async (req, res) => { 
+
+    const user = await User.findById(req.params.id);
+
+    res.status(200).json({status: "succsess", 
+      data: {user} 
+    });
+}
