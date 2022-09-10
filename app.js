@@ -1,42 +1,46 @@
-const fs = require('fs');
 const express = require('express');
-const authController = require('./public/controllers/authController');
+const morgan = require('morgan');
 const compression = require('compression');
+const authController = require('./public/controllers/authController');
 
-
+const tourRouter = require('./routes/tour-routes');
+const userRouter = require('./routes/user-routes');
 const app = express();
 
+if(process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'));
+}
 app.use(express.json());
 
-const tours = ""; //JSON.parse(fs.readFileSync(`${__dirname}\\public\\data\\tours.json`));
 
 
 app.use(compression())
 
 
-
 //ROUTES
-const tourRouter = express.Router();
-const userRouter = express.Router();
-tourRouter.get('', (req, res) => {    
-    res.status(200).json({status: "succsess" , data: tours });
-});
+
+//const userRouter = express.Router();
 
 
+// const getAllUsers = (req, res) => {
+//     res.status(200).json({status: "succsess"  });
+//  }
 
-userRouter.get('/', (req, res) => { 
-    res.status(200).json({status: "succsess"  });
-})
 
-userRouter.post('/login', authController.login)
+// const createUser = (req, res) => {}
+// const getUser = (req, res) => { }
+// const updateUser = (req, res) => {}
+// const deleteUser = (req, res) => { }
+
+
+// userRouter.route('/').get(getAllUsers).post(createUser);
+
+// userRouter.route('/:v1').get(getUser).patch(updateUser).delete(deleteUser);
+
+// userRouter.post('/login', authController.login)
 
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
 
 
-const port = process.env.PORT || 3000;
-console.log(process.env.PORT)
-//const port =  3000;
-app.listen(port, () => {
-
-})
+module.exports = app;
