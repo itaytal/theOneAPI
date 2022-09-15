@@ -16,9 +16,7 @@ exports.signup = async (req, res, next) => {
         confirmPassword: req.body.confirmPassword
     });
 
-    const token = jwt.sign( {id: newUser._id, email: body.email}, jwtSecrt,
-         { expiresIn: jwtExpiry}
-         )
+    const token = jwt.sign( {id: newUser._id, email: req.body.email}, jwtSecrt, { expiresIn: jwtExpiry});
 
     res.status(201).json({
         status: 'success',
