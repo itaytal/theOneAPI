@@ -37,9 +37,6 @@ exports.login = async(req, res, next) => {
     if(!email || !password){
        return res.status(401).json({status: "failed"})
     }
-
-
-
     const body = req.body
 
     const user = await User.findOne({email}).select('+password');

@@ -1,6 +1,8 @@
 const User = require('./../models/userModel');
+const jwt = require('jsonwebtoken');
 
-
+const jwtSecrt = "THE_ONE_TOKEN";
+const jwtExpiry = "90d"
 
 exports.getAllUsers = async (req, res, next) => {
 
@@ -15,11 +17,24 @@ exports.getAllUsers = async (req, res, next) => {
 
 }
 
-exports.getUser = async (req, res) => { 
+exports.getUser = async (req, res, next) => { 
 
-    const user = await User.findById(req.params.id);
+    try {
+    if(req.headers.authorization){ 
+            const token = req.headers.authorization;
 
-    res.status(200).json({status: "succsess", 
-      data: {user} 
-    });
+            const docoded = await jwt.verify(token, jwtSecrt);
+            console.log(docoded);
+
+            const user = await User.findById(docoded.id);
+            res.status(200).json({status: "succsess", 
+            data: {user} 
+            });
+        }
+    }
+    catch (err) { 
+        res.status(400).json({status: "fail", message: err } )
+   }
+
+    next();
 }
